@@ -39,16 +39,14 @@ android {
 }
 
 dependencies {
-
+    implementation fileTree(dir: "libs", include: ["*.jar"])
     // Kotlin
     implementation(Dependencies.kotlin)
 
     // Android
     implementation(Android.appcompat)
-    implementation(Android.activityKtx)
     implementation(Android.coreKtx)
     implementation(Android.constraintLayout)
-    implementation(Android.swipeRefreshLayout)
     implementation(Android.androidx)
     implementation(Android.design)
     implementation(Android.vector)
@@ -107,7 +105,6 @@ dependencies {
     implementation(Lifecycle.viewModel)
     implementation(Lifecycle.liveData)
     implementation(Lifecycle.ext)
-    implementation(Lifecycle.arch)
     implementation(Lifecycle.navigation)
     implementation(Lifecycle.navigationUi)
 
@@ -125,5 +122,9 @@ dependencies {
     //Navigation
     implementation(Navigation.navigation)
     implementation(Navigation.ui)
+
+    //Location
+    implementation(Location.location)
+    implementation(Location.gcm)
 }
 

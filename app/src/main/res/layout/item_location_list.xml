@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.cafebazaar.test.nearlocations.location.domain.model.LocationData" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/character_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/first_margin"
+        app:cardCornerRadius="@dimen/first_corner">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image"
+                android:layout_width="@dimen/large_image_view_size"
+                android:layout_height="@dimen/large_image_view_size"
+                app:imageUrl="@{data.icon}"
+                app:placeHolder="@{@drawable/ic_baseline_adb_24}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/second_margin"
+                android:layout_marginTop="@dimen/second_margin"
+                android:text="@{data.name}"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/text_size_14"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/image"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/second_margin"
+                android:layout_marginTop="@dimen/min_margin"
+                android:layout_marginEnd="@dimen/second_margin"
+                android:text="@{data.location.address}"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/text_size_10"
+                app:layout_constraintStart_toEndOf="@id/image"
+                app:layout_constraintTop_toBottomOf="@id/name" />
+
+            <TextView
+                android:id="@+id/distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/second_margin"
+                android:layout_marginTop="@dimen/first_margin"
+                android:text="@{data.location.distance}"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/text_size_12"
+                app:layout_constraintStart_toEndOf="@id/image"
+                app:layout_constraintTop_toBottomOf="@id/location" />
+
+            <TextView
+                android:id="@+id/pluralName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/second_margin"
+                android:layout_marginTop="@dimen/min_margin"
+                android:text="@{data.pluralName}"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/text_size_12"
+                app:layout_constraintStart_toEndOf="@id/image"
+                app:layout_constraintTop_toBottomOf="@id/distance" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

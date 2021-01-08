@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_logout_dialog"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_background"
+    tools:ignore="MissingPrefix"
+    android:paddingTop="15dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    android:layoutDirection="rtl"
+    android:minWidth="300dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textColor"
+        android:textSize="17sp"
+        android:text="در صورت عدم دسترسی امکان مشاهده مکان های نزدیک شما وجود ندارد."
+        />
+
+
+    <TextView
+        android:id="@+id/negativeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:padding="10dp"
+        android:layout_below="@+id/title"
+        android:text="باشه"
+        android:textAlignment="center"
+        android:textColor="@color/textColor"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/positiveBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/negativeBtn"
+        android:padding="10dp"
+        android:layout_below="@+id/title"
+        android:text="دادن دسترسی"
+        android:textAlignment="center"
+        android:textColor="@color/textColor"
+        android:textSize="16sp"
+        />
+
+
+</RelativeLayout>
+</layout>

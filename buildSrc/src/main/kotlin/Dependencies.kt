@@ -23,7 +23,6 @@ object Lifecycle {
     const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
     const val ext = "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    const val arch = "android.arch.lifecycle:extensions:1.1.1"
     const val navigation = "androidx.navigation:navigation-fragment-ktx:2.3.1"
     const val navigationUi = "androidx.navigation:navigation-ui-ktx:2.3.1"
 }
@@ -58,11 +57,9 @@ object Retrofit {
 }
 
 object Android {
-    const val appcompat = "androidx.appcompat:appcompat:1.1.0"
-    const val activityKtx = "androidx.activity:activity-ktx:1.1.0"
+    const val appcompat = "com.android.support:appcompat-v7:28.0.0"
     const val coreKtx = "androidx.core:core-ktx:1.2.0"
     const val constraintLayout = "com.android.support.constraint:constraint-layout:2.0.2"
-    const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     const val androidx = "androidx.lifecycle:lifecycle-extensions:2.2.0"
     const val design = "com.android.support:design:28.0.0"
     const val vector = "com.android.support:support-vector-drawable:28.0.0"
@@ -93,4 +90,8 @@ object Jackson {
 object Navigation {
     const val navigation = "android.arch.navigation:navigation-fragment-ktx:1.0.0"
     const val ui = "android.arch.navigation:navigation-ui-ktx:1.0.0"
+}
+object Location {
+    const val location = "com.google.android.gms:play-services-location:17.1.0"
+    const val gcm = "com.google.android.gms:play-services-gcm:17.0.0"
 }
