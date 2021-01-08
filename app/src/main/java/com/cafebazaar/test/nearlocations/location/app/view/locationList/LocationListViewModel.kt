@@ -1,18 +1,21 @@
 package com.cafebazaar.test.nearlocations.location.app.view.locationList
 
-import android.annotation.SuppressLint
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.cafebazaar.test.nearlocations.location.domain.model.LocationData
 import com.cafebazaar.test.nearlocations.location.domain.usecase.GetLocationsUseCase
+import com.cafebazaar.test.nearlocations.location.domain.usecase.InsertLocationsToDatabaseUseCase
 import com.test.cleanArchRoomTest.utils.ext.addTo
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class LocationListViewModel @ViewModelInject constructor(private val getLocationsUseCase: GetLocationsUseCase) :
+class LocationListViewModel @ViewModelInject constructor(
+    private val getLocationsUseCase: GetLocationsUseCase,
+    private val insertLocationsToDatabaseUseCase: InsertLocationsToDatabaseUseCase
+) :
     ViewModel() {
     private val disposables = CompositeDisposable()
 
@@ -54,6 +57,7 @@ class LocationListViewModel @ViewModelInject constructor(private val getLocation
     private fun handleData(it: GetLocationsUseCase.Result?) {
         when (it) {
             is GetLocationsUseCase.Result.Success -> {
+                insertLocations(it.locations)
                 _locations.value = it.locations
                 _showProgress.value = false
                 _listIsEmpty.value = it.locations.isEmpty()
@@ -64,6 +68,13 @@ class LocationListViewModel @ViewModelInject constructor(private val getLocation
             }
             is GetLocationsUseCase.Result.Loading -> _showProgress.value = false
         }
+    }
+
+    private fun insertLocations(data: List<LocationData>) {
+        insertLocationsToDatabaseUseCase.insertLocations(data)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
     }
 
     override fun onCleared() {
