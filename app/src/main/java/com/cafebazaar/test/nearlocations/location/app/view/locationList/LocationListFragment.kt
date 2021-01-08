@@ -1,21 +1,18 @@
 package com.cafebazaar.test.nearlocations.location.app.view.locationList
 
-import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.cafebazaar.test.nearlocations.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LocationListFragment : Fragment() {
 
-    companion object {
-        fun newInstance() =
-            LocationListFragment()
-    }
-
-    private lateinit var viewModel: LocationListViewModel
+    private val viewModel : LocationListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,10 +23,6 @@ class LocationListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-            LocationListViewModel::class.java
-        )
-        // TODO: Use the ViewModel
     }
 
 }

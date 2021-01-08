@@ -1,9 +1,11 @@
-package com.cafebazaar.test.nearlocations.location
+package com.cafebazaar.test.nearlocations.utils
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.cafebazaar.test.nearlocations.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

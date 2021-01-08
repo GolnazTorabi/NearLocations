@@ -1,6 +1,8 @@
 plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("kotlin-android-extensions")
 }
 
 android {
@@ -13,9 +15,13 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
+
+    buildFeatures.viewBinding = true
+    buildFeatures.dataBinding = true
 
     buildTypes {
         release {
@@ -34,19 +40,90 @@ android {
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
-    implementation 'com.android.support:support-v4:28.0.0'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    // Kotlin
+    implementation(Dependencies.kotlin)
+
+    // Android
+    implementation(Android.appcompat)
+    implementation(Android.activityKtx)
+    implementation(Android.coreKtx)
+    implementation(Android.constraintLayout)
+    implementation(Android.swipeRefreshLayout)
+    implementation(Android.androidx)
+    implementation(Android.design)
+    implementation(Android.vector)
+
+    // Architecture Components
+    implementation(Lifecycle.viewModel)
+    implementation(Lifecycle.liveData)
+
+    // Room components
+    implementation(Room.runtime)
+    implementation(Room.ktx)
+    implementation(Room.rxJava)
+    implementation(Room.rxJava2)
+    kapt(Room.compiler)
+
+    // Material Design
+    implementation(Dependencies.materialDesign)
+    implementation(Dependencies.materialDialog)
+
+    // Coil-kt
+    implementation(Dependencies.coil)
+
+    // Retrofit
+    implementation(Retrofit.retrofit)
+    implementation(Retrofit.moshiRetrofitConverter)
+    implementation(Retrofit.jackson)
+    implementation(Retrofit.Gson)
+    implementation(Retrofit.logging)
+
+
+    // Hilt + Dagger
+    implementation(Hilt.hiltAndroid)
+    implementation(Hilt.hiltViewModel)
+    kapt(Hilt.daggerCompiler)
+    kapt(Hilt.hiltCompiler)
+
+    // Testing
+    testImplementation(Testing.core)
+    testImplementation(Testing.coroutines)
+    testImplementation(Testing.room)
+    testImplementation(Testing.okHttp)
+    testImplementation(Testing.jUnit)
+
+    // Android Testing
+    androidTestImplementation(Testing.extJUnit)
+    androidTestImplementation(Testing.espresso)
+
+
+    // Glide
+    implementation(Glide.glide)
+    implementation(Glide.annotation)
+    implementation(Glide.integration)
+    kapt(Glide.kapt)
+
+    // ViewModel
+    implementation(Lifecycle.viewModel)
+    implementation(Lifecycle.liveData)
+    implementation(Lifecycle.ext)
+    implementation(Lifecycle.arch)
+    implementation(Lifecycle.navigation)
+    implementation(Lifecycle.navigationUi)
+
+    //RxJava
+    implementation(RxJava.rxAndroid)
+    implementation(RxJava.rxJava)
+    implementation(RxJava.adapter)
+    implementation(RxJava.logging)
+
+    //Jackson
+    implementation(Jackson.core)
+    implementation(Jackson.annotation)
+    implementation(Jackson.dataBind)
 
     //Navigation
-    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0'
-    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0'
-
-    //ViewModel
-    implementation 'android.arch.lifecycle:livedata:1.1.1'
-    implementation 'android.arch.lifecycle:viewmodel:1.1.1'
+    implementation(Navigation.navigation)
+    implementation(Navigation.ui)
 }
+
