@@ -17,6 +17,10 @@ class LocationRepositoryImpl @Inject constructor(
         return locationApiImpl.getLocations(latLang)
     }
 
+    override fun getNearLocationsFromDb(): Single<List<LocationData>> {
+        return locationsDao.getLocations()
+    }
+
     override fun insertAllLocation(locationData: List<LocationData>): Maybe<List<Long>> {
         return locationsDao.insertAllLocation(locationData)
     }

@@ -1,11 +1,10 @@
 package com.cafebazaar.test.nearlocations.location.domain.usecase
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.app.Activity
 import com.cafebazaar.test.nearlocations.location.data.mapper.LocationsToDBMapper
 import com.cafebazaar.test.nearlocations.location.domain.model.LocationData
 import com.cafebazaar.test.nearlocations.location.domain.repository.LocationRepository
-import com.cafebazaar.test.nearlocations.utils.database.SharedPreferences.MainPreferences
 import com.cafebazaar.test.nearlocations.utils.math.Distance
 import com.test.cleanArchRoomTest.utils.network.NetworkConnection
 import io.reactivex.Observable
@@ -13,7 +12,7 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 class GetLocationsUseCase @Inject constructor(
-    private val context: Context,
+    private val activity: Activity,
     private val locationRepository: LocationRepository
 ) {
     sealed class Result {
@@ -22,20 +21,31 @@ class GetLocationsUseCase @Inject constructor(
         data class Failure(val throwable: Throwable) : Result()
     }
 
-    private fun getDistance(lat: Double?, lng: Double?): Double {
+    private fun getDistance(lat: Double?, lng: Double?, oldLat: Double?, oldLng: Double?): Double {
         return abs(
             Distance.distance(
                 lat ?: 0.0,
                 lng ?: 0.0,
-                MainPreferences.getInstance(context).getLat(0.0),
-                MainPreferences.getInstance(context).getLng(0.0)
+                oldLat ?: 0.0,
+                oldLng ?: 0.0
             )
         )
     }
 
     @SuppressLint("CheckResult")
-    fun getLocationsList(lat: Double?, lng: Double?): Observable<Result> {
-        return if (getDistance(lat, lng) < 100.0 || !NetworkConnection.checkNetwork()) {
+    fun getLocationsList(
+        lat: Double?,
+        lng: Double?,
+        oldLat: Double?,
+        oldLng: Double?
+    ): Observable<Result> {
+        return if (getDistance(
+                lat,
+                lng,
+                oldLat,
+                oldLng
+            ) < 100.0 || !NetworkConnection.checkNetwork()
+        ) {
             return locationRepository.getNearLocationsFromDb()
                 .toObservable()
                 .map {

@@ -18,5 +18,9 @@
         android:id="@+id/locationDetailsFragment"
         android:name="com.cafebazaar.test.nearlocations.location.app.view.locationDetail.LocationDetailsFragment"
         android:label="location_details_fragment"
-        tools:layout="@layout/location_details_fragment" />
+        tools:layout="@layout/location_details_fragment" >
+        <argument
+            android:name="locationId"
+            app:argType="string" />
+    </fragment>
 </navigation>

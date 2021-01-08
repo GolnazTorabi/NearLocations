@@ -4,7 +4,7 @@
     <item>
         <shape>
 
-            <solid android:color="?attr/viewBackgroundColor" />
+            <solid android:color="@color/toolbar" />
             <corners android:radius="15dp" />
             <!--<padding
                 android:left="10dp"
@@ -13,7 +13,7 @@
 
             <stroke
                 android:width="0.5dp"
-                android:color="?attr/recyclerViewRowColor" />
+                android:color="@color/toolbar" />
         </shape>
     </item>
     <item>
@@ -27,7 +27,7 @@
 
             <stroke
                 android:width="0.5dp"
-                android:color="?attr/recyclerViewRowColor" />
+                android:color="@color/toolbar" />
         </shape>
     </item>
 </layer-list>

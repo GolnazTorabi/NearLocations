@@ -15,10 +15,16 @@ class LocationsToDBMapper : Mapper<LocationData, ItemsItem>() {
         } else {
 
             LocationData(
-                value.venue?.id,
+                value.venue?.id?.toInt(),
                 value.venue?.name,
                 value.venue?.popularityByGeo,
-                value.venue?.location,
+                value.venue?.location?.country,
+                value.venue?.location?.distance,
+                value.venue?.location?.city,
+                value.venue?.location?.postalCode,
+                value.venue?.location?.state,
+                value.venue?.location?.crossStreet,
+                value.venue?.location?.address,
                 value.venue?.categories?.get(0)?.pluralName,
                 value.venue?.categories?.get(0)?.icon?.prefix + value.venue?.categories?.get(0)?.icon?.suffix,
                 value.venue?.categories?.get(0)?.shortName

@@ -59,7 +59,7 @@ object Retrofit {
 object Android {
     const val appcompat = "com.android.support:appcompat-v7:28.0.0"
     const val coreKtx = "androidx.core:core-ktx:1.2.0"
-    const val constraintLayout = "com.android.support.constraint:constraint-layout:2.0.2"
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout:1.1.3"
     const val androidx = "androidx.lifecycle:lifecycle-extensions:2.2.0"
     const val design = "com.android.support:design:28.0.0"
     const val vector = "com.android.support:support-vector-drawable:28.0.0"

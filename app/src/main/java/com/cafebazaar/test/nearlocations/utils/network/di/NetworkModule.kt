@@ -1,6 +1,6 @@
 package com.cafebazaar.test.nearlocations.utils.network.di
 
-import com.cafebazaar.test.nearlocations.BuildConfig
+import androidx.databinding.library.BuildConfig
 import com.cafebazaar.test.nearlocations.location.data.api.LocationApi
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module

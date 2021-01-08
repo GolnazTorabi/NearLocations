@@ -1,4 +1,4 @@
-package com.test.cleanArchRoomTest.utils.binding
+package com.cafebazaar.test.nearlocations.utils.binding
 
 import android.graphics.drawable.Drawable
 import android.widget.ImageView

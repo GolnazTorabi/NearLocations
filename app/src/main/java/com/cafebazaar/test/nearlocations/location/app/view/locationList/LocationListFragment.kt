@@ -20,6 +20,7 @@ import com.cafebazaar.test.nearlocations.databinding.LocationListFragmentBinding
 import com.cafebazaar.test.nearlocations.location.app.view.locationList.adapter.LocationListAdapter
 import com.cafebazaar.test.nearlocations.utils.Dialog.AlertDialogCallback
 import com.cafebazaar.test.nearlocations.utils.Dialog.CustomDialog
+import com.cafebazaar.test.nearlocations.utils.database.SharedPreferences.MainPreferences
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
@@ -177,7 +178,12 @@ class LocationListFragment : Fragment() {
     }
 
     private fun getLocations() {
-        viewModel.getLocations(lat, lng)
+        viewModel.getLocations(
+            lat,
+            lng,
+            MainPreferences.getInstance(requireContext()).getLat(0.0),
+            MainPreferences.getInstance(requireContext()).getLng(0.0)
+        )
         observeLocations()
     }
 
