@@ -34,24 +34,25 @@ class LocationListViewModel @ViewModelInject constructor(
 
     var errorMessage = MutableLiveData<String?>()
 
-    fun getLocations(lat: Double?, lng: Double?, oldLat: Double?, oldLng: Double?) {
-        if (locations.value.isNullOrEmpty()) {
-            _showProgress.value = true
-            errorMessage.value = null
-            _locations.value = mutableListOf()
-            _listIsEmpty.value = false
-            getLocationsUseCase.getLocationsList(lat, lng,oldLat, oldLng)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    handleData(it)
-                }
-                .addTo(disposables)
-        } else {
-            _showProgress.value = false
-
-        }
-
+    fun getLocations(
+        lat: Double?,
+        lng: Double?,
+        oldLat: Double?,
+        oldLng: Double?,
+        page: Int = 0,
+        offset: Int = 0
+    ) {
+        _showProgress.value = true
+        errorMessage.value = null
+        _locations.value = mutableListOf()
+        _listIsEmpty.value = false
+        getLocationsUseCase.getLocationsList(lat, lng, oldLat, oldLng, page, offset)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                handleData(it)
+            }
+            .addTo(disposables)
     }
 
     private fun handleData(it: GetLocationsUseCase.Result?) {

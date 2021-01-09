@@ -7,5 +7,5 @@ import retrofit2.http.Query
 
 interface LocationApi {
     @GET("/v2/venues/explore")
-    fun getNearLocations(@Query("ll") latLang: String): Single<ResponseLocationsList>
+    fun getNearLocations(@Query("ll") latLang: String, @Query("offset") page: Int): Single<ResponseLocationsList>
 }

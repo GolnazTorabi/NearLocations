@@ -13,12 +13,12 @@ class LocationRepositoryImpl @Inject constructor(
     private val locationApiImpl: LocationApiImpl,
     private val locationsDao: LocationDao
 ) : LocationRepository {
-    override fun getNearLocations(latLang: String): Single<ResponseLocationsList> {
-        return locationApiImpl.getLocations(latLang)
+    override fun getNearLocations(latLang: String, page: Int?): Single<ResponseLocationsList> {
+        return locationApiImpl.getLocations(latLang, page ?: 0)
     }
 
-    override fun getNearLocationsFromDb(): Single<List<LocationData>> {
-        return locationsDao.getLocations()
+    override fun getNearLocationsFromDb(offset: Int): Single<List<LocationData>> {
+        return locationsDao.getLocations(30, offset)
     }
 
     override fun insertAllLocation(locationData: List<LocationData>): Maybe<List<Long>> {

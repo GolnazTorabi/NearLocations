@@ -6,8 +6,8 @@ import io.reactivex.Maybe
 import io.reactivex.Single
 
 interface LocationRepository {
-    fun getNearLocations(latLang: String): Single<ResponseLocationsList>
-    fun getNearLocationsFromDb(): Single<List<LocationData>>
+    fun getNearLocations(latLang: String,page:Int?): Single<ResponseLocationsList>
+    fun getNearLocationsFromDb(offset:Int): Single<List<LocationData>>
     fun insertAllLocation(locationData: List<LocationData>): Maybe<List<Long>>
     fun getSpecificLocation(id: String): Maybe<LocationData>
     fun deleteAllLocations(): Single<Int>

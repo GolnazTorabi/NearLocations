@@ -1,7 +1,6 @@
 package com.cafebazaar.test.nearlocations.location.domain.usecase
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import com.cafebazaar.test.nearlocations.location.domain.model.LocationData
 import com.cafebazaar.test.nearlocations.location.domain.repository.LocationRepository
 import io.reactivex.Observable

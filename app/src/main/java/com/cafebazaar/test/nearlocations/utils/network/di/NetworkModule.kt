@@ -30,7 +30,7 @@ class NetworkModule {
         convertFactory: GsonConverterFactory
     ): Retrofit =
         Retrofit.Builder()
-            .baseUrl("https://...")
+            .baseUrl("https://api.foursquare.com/")
             .client(httpClient.build())
             .addConverterFactory(convertFactory)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

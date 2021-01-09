@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafebazaar.test.nearlocations.R
 import com.cafebazaar.test.nearlocations.databinding.LocationListFragmentBinding
+import com.cafebazaar.test.nearlocations.location.app.view.locationList.adapter.LoadMoreListener
 import com.cafebazaar.test.nearlocations.location.app.view.locationList.adapter.LocationListAdapter
 import com.cafebazaar.test.nearlocations.utils.Dialog.AlertDialogCallback
 import com.cafebazaar.test.nearlocations.utils.Dialog.CustomDialog
@@ -30,7 +31,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class LocationListFragment : Fragment() {
+class LocationListFragment : Fragment(), LoadMoreListener {
 
     private val viewModel: LocationListViewModel by viewModels()
     private lateinit var binding: LocationListFragmentBinding
@@ -46,6 +47,7 @@ class LocationListFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var lat: Double? = 0.0
     private var lng: Double? = 0.0
+    private var page: Int = 1
 
 
     override fun onCreateView(
@@ -194,6 +196,18 @@ class LocationListFragment : Fragment() {
         viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
         })
+    }
+
+    override fun onLoadMore(position: Int) {
+        page++
+        viewModel.getLocations(
+            lat,
+            lng,
+            MainPreferences.getInstance(requireContext()).getLat(0.0),
+            MainPreferences.getInstance(requireContext()).getLng(0.0),
+            page,
+            position
+        )
     }
 
 }

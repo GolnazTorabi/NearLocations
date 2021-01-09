@@ -1,7 +1,6 @@
 package com.cafebazaar.test.nearlocations.location.domain.usecase
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import com.cafebazaar.test.nearlocations.location.data.mapper.LocationsToDBMapper
 import com.cafebazaar.test.nearlocations.location.domain.model.LocationData
 import com.cafebazaar.test.nearlocations.location.domain.repository.LocationRepository
@@ -12,7 +11,6 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 class GetLocationsUseCase @Inject constructor(
-    private val activity: Activity,
     private val locationRepository: LocationRepository
 ) {
     sealed class Result {
@@ -37,7 +35,9 @@ class GetLocationsUseCase @Inject constructor(
         lat: Double?,
         lng: Double?,
         oldLat: Double?,
-        oldLng: Double?
+        oldLng: Double?,
+        page: Int,
+        offset: Int
     ): Observable<Result> {
         return if (getDistance(
                 lat,
@@ -46,7 +46,7 @@ class GetLocationsUseCase @Inject constructor(
                 oldLng
             ) < 100.0 || !NetworkConnection.checkNetwork()
         ) {
-            return locationRepository.getNearLocationsFromDb()
+            return locationRepository.getNearLocationsFromDb(offset)
                 .toObservable()
                 .map {
                     Result.Success(it) as Result
@@ -56,7 +56,7 @@ class GetLocationsUseCase @Inject constructor(
         } else {
             locationRepository.deleteAllLocations()
             val latLng = "$lat,$lng"
-            locationRepository.getNearLocations(latLng)
+            locationRepository.getNearLocations(latLng, page)
                 .toObservable()
                 .map {
                     val data = LocationsToDBMapper().reverseMap(it.response?.groups?.get(0)?.items)

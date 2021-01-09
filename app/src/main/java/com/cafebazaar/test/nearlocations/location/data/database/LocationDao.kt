@@ -13,8 +13,8 @@ interface LocationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllLocation(locationData: List<LocationData>): Maybe<List<Long>>
 
-    @Query("Select * From Locations ")
-    fun getLocations(): Single<List<LocationData>>
+    @Query("Select * From Locations LIMIT:limit OFFSET:offset")
+    fun getLocations(limit: Int, offset: Int): Single<List<LocationData>>
 
     @Query("Select * From Locations Where locationId = :id")
     fun getSpecificLocation(id: String): Maybe<LocationData>
