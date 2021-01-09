@@ -17,7 +17,9 @@ import io.reactivex.disposables.CompositeDisposable
 class LocationDetailsFragment : Fragment() {
 
     private val disposables = CompositeDisposable()
-    private lateinit var binding: LocationDetailsFragmentBinding
+    private var _binding: LocationDetailsFragmentBinding? = null
+    private val binding get() = _binding!!
+
     private val args: LocationDetailsFragmentArgs by navArgs()
 
 
@@ -30,16 +32,17 @@ class LocationDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding =
+        _binding =
             DataBindingUtil.inflate(inflater, R.layout.location_details_fragment, container, false)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+        _binding?.viewModel = viewModel
+        _binding?.lifecycleOwner = this
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         getLocationData()
+        binding.back.setOnClickListener { activity?.onBackPressed() }
     }
 
     private fun getLocationData() {
@@ -49,6 +52,11 @@ class LocationDetailsFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         disposables.clear()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
 }

@@ -1,5 +1,6 @@
 package com.cafebazaar.test.nearlocations.location.app.view.locationList
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -58,10 +59,12 @@ class LocationListViewModel @ViewModelInject constructor(
     private fun handleData(it: GetLocationsUseCase.Result?) {
         when (it) {
             is GetLocationsUseCase.Result.Success -> {
-                insertLocations(it.locations)
-                _locations.value = it.locations
-                _showProgress.value = false
-                _listIsEmpty.value = it.locations.isEmpty()
+                if (it.locations != _locations.value) {
+                    insertLocations(it.locations)
+                    _locations.value = it.locations
+                    _showProgress.value = false
+                    _listIsEmpty.value = it.locations.isEmpty()
+                }
             }
             is GetLocationsUseCase.Result.Failure -> {
                 errorMessage.value = it.throwable.message!!

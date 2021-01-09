@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">NearLocations</string>
-    <string name="list_is_empty">لیست خالی است.</string>
+    <string name="list_is_empty">The list is empty.</string>
     <string name="distance">distance:%d</string>
 </resources>

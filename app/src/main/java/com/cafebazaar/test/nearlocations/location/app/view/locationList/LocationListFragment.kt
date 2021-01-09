@@ -33,7 +33,8 @@ import javax.inject.Inject
 class LocationListFragment : Fragment() {
 
     private val viewModel: LocationListViewModel by viewModels()
-    private lateinit var binding: LocationListFragmentBinding
+    private var _binding: LocationListFragmentBinding? = null
+    private val binding get() = _binding!!
 
     @Inject
     lateinit var adapter: LocationListAdapter
@@ -54,17 +55,28 @@ class LocationListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding =
+        _binding =
             DataBindingUtil.inflate(inflater, R.layout.location_list_fragment, container, false)
-        binding.lifecycleOwner = this
+        _binding?.lifecycleOwner = this
+        _binding?.viewModel = viewModel
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        binding.back.setOnClickListener { activity?.onBackPressed() }
         initAdapter()
         getLocationPermissionCheck()
+    }
+
+    private fun getLocationPermissionCheck() {
+        if (checkPermission()) {
+            getLocationLatLng()
+            getLocations()
+        } else {
+            requestPermission()
+        }
     }
 
     private fun checkPermission(): Boolean {
@@ -82,34 +94,6 @@ class LocationListFragment : Fragment() {
         )
     }
 
-    private fun getLocationPermissionCheck() {
-        if (checkPermission()) {
-            getLocationLatLng()
-            //getLocations()
-        } else {
-            requestPermission()
-        }
-    }
-
-    /*private fun getLocationPermission() {
-        try {
-            if (ContextCompat.checkSelfPermission(
-                    requireActivity().applicationContext,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    MY_PERMISSIONS_REQUEST_LOCATION
-                )
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }*/
-
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>, grantResults: IntArray
@@ -120,11 +104,31 @@ class LocationListFragment : Fragment() {
                     showDenyDialog()
                 } else {
                     getLocationLatLng()
-                    //getLocations()
+                    getLocations()
                 }
             }
         }
     }
+
+    private fun getLocations() {
+        viewModel.getLocations(
+            lat,
+            lng,
+            MainPreferences.getInstance(requireContext()).getLat(0.0),
+            MainPreferences.getInstance(requireContext()).getLng(0.0)
+        )
+        observeLocations()
+    }
+
+    private fun observeLocations() {
+        viewModel.locations.observe(viewLifecycleOwner, Observer {
+            adapter.fillData(it.toMutableList())
+        })
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(context, "Unfortunately, there is a problem.", Toast.LENGTH_LONG).show()
+        })
+    }
+
 
     private fun getLocationLatLng() {
         if (ActivityCompat.checkSelfPermission(
@@ -135,14 +139,16 @@ class LocationListFragment : Fragment() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            return
+        } else {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location: Location? ->
-                    lat = location?.latitude
-                    lng = location?.longitude
+                    if (lat == 0.0 || lng == 0.0) {
+                        lat = location?.latitude
+                        lng = location?.longitude
+                    }
                 }
-            return
         }
-
     }
 
     private fun showDenyDialog() {
@@ -191,23 +197,18 @@ class LocationListFragment : Fragment() {
             }
     }
 
-    /*private fun getLocations() {
-        viewModel.getLocations(
-            lat,
-            lng,
-            MainPreferences.getInstance(requireContext()).getLat(0.0),
-            MainPreferences.getInstance(requireContext()).getLng(0.0)
-        )
-        observeLocations()
-    }*/
+    override fun onPause() {
+        super.onPause()
+        lat?.let { it1 -> MainPreferences.getInstance(requireContext()).setLat(it1) }
+        lng?.let { it1 -> MainPreferences.getInstance(requireContext()).setLng(it1) }
+    }
 
-    private fun observeLocations() {
-        viewModel.locations.observe(viewLifecycleOwner, Observer {
-            adapter.fillData(it.toMutableList())
-        })
-        viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-        })
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.list.adapter = null
+        _binding = null
+        subscribeLoadMore?.dispose()
+        subscribeLocation?.dispose()
     }
 
 }
