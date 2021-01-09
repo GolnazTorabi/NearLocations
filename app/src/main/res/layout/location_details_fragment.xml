@@ -2,6 +2,7 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.cafebazaar.test.nearlocations.location.app.view.locationDetail.LocationDetailsViewModel" />
@@ -12,6 +13,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/background"
         tools:context="com.cafebazaar.test.nearlocations.location.app.view.locationDetail.LocationDetailsViewModel">
 
         <TextView
@@ -20,6 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:padding="@dimen/padding_min_8"
+            android:text="@{viewModel.location.name}"
             android:textColor="@color/textColor"
             android:textSize="@dimen/text_size_18"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,21 +31,22 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/second_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title">
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/address"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/min_margin"
                 android:layout_marginTop="@dimen/second_margin"
+                android:layout_marginEnd="@dimen/min_margin"
                 android:gravity="start"
                 android:padding="@dimen/padding_min_8"
+                android:text="@{viewModel.location.address}"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size_12"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -50,60 +54,69 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/created"
+                android:id="@+id/postalCode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/min_margin"
                 android:layout_marginTop="@dimen/second_margin"
+                android:layout_marginEnd="@dimen/min_margin"
                 android:gravity="start"
                 android:padding="@dimen/padding_min_8"
+                android:text="@{viewModel.location.postalCode}"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/name" />
+                app:layout_constraintTop_toBottomOf="@id/address" />
 
             <TextView
-                android:id="@+id/episode"
+                android:id="@+id/pluralName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/min_margin"
                 android:layout_marginTop="@dimen/second_margin"
+                android:layout_marginEnd="@dimen/min_margin"
                 android:gravity="start"
                 android:padding="@dimen/padding_min_8"
+                android:text="@{viewModel.location.pluralName}"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/created" />
+                app:layout_constraintTop_toBottomOf="@id/postalCode" />
 
             <TextView
-                android:id="@+id/url"
+                android:id="@+id/city"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/min_margin"
                 android:layout_marginTop="@dimen/second_margin"
+                android:layout_marginEnd="@dimen/min_margin"
                 android:padding="@dimen/padding_min_8"
+                android:text="@{viewModel.location.city}"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/episode" />
+                app:layout_constraintTop_toBottomOf="@id/pluralName" />
 
             <TextView
-                android:id="@+id/character"
+                android:id="@+id/country"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/min_margin"
                 android:layout_marginTop="@dimen/second_margin"
+                android:layout_marginEnd="@dimen/min_margin"
+                android:layout_marginBottom="@dimen/second_margin"
                 android:gravity="start"
                 android:padding="@dimen/padding_min_8"
+                android:text="@{viewModel.location.country}"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size_12"
-                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/url" />
+                app:layout_constraintTop_toBottomOf="@id/city" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

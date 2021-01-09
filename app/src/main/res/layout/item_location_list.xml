@@ -62,19 +62,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/second_margin"
                 android:layout_marginTop="@dimen/first_margin"
-                android:text="@{data.distance}"
+                android:text="@{@string/distance(data.distance)}"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/text_size_12"
                 app:layout_constraintStart_toEndOf="@id/image"
                 app:layout_constraintTop_toBottomOf="@id/location" />
 
             <TextView
-                android:id="@+id/pluralName"
+                android:id="@+id/postalCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/second_margin"
                 android:layout_marginTop="@dimen/min_margin"
-                android:text="@{data.pluralName}"
+                android:text="@{data.postalCode}"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_size_12"
                 app:layout_constraintStart_toEndOf="@id/image"
