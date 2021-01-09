@@ -18,7 +18,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafebazaar.test.nearlocations.R
 import com.cafebazaar.test.nearlocations.databinding.LocationListFragmentBinding
-import com.cafebazaar.test.nearlocations.location.app.view.locationList.adapter.LoadMoreListener
 import com.cafebazaar.test.nearlocations.location.app.view.locationList.adapter.LocationListAdapter
 import com.cafebazaar.test.nearlocations.utils.Dialog.AlertDialogCallback
 import com.cafebazaar.test.nearlocations.utils.Dialog.CustomDialog
@@ -31,7 +30,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class LocationListFragment : Fragment(), LoadMoreListener {
+class LocationListFragment : Fragment() {
 
     private val viewModel: LocationListViewModel by viewModels()
     private lateinit var binding: LocationListFragmentBinding
@@ -39,6 +38,7 @@ class LocationListFragment : Fragment(), LoadMoreListener {
     @Inject
     lateinit var adapter: LocationListAdapter
     private var subscribeLocation: Disposable? = null
+    private var subscribeLoadMore: Disposable? = null
 
     companion object {
         private val MY_PERMISSIONS_REQUEST_LOCATION = 99
@@ -85,7 +85,7 @@ class LocationListFragment : Fragment(), LoadMoreListener {
     private fun getLocationPermissionCheck() {
         if (checkPermission()) {
             getLocationLatLng()
-            getLocations()
+            //getLocations()
         } else {
             requestPermission()
         }
@@ -120,7 +120,7 @@ class LocationListFragment : Fragment(), LoadMoreListener {
                     showDenyDialog()
                 } else {
                     getLocationLatLng()
-                    getLocations()
+                    //getLocations()
                 }
             }
         }
@@ -177,9 +177,21 @@ class LocationListFragment : Fragment(), LoadMoreListener {
                     )
                 findNavController().navigate(action)
             }
+        subscribeLoadMore = adapter.clickEventLoadMore
+            .subscribe {
+                page++
+                viewModel.getLocations(
+                    lat,
+                    lng,
+                    MainPreferences.getInstance(requireContext()).getLat(0.0),
+                    MainPreferences.getInstance(requireContext()).getLng(0.0),
+                    page,
+                    it
+                )
+            }
     }
 
-    private fun getLocations() {
+    /*private fun getLocations() {
         viewModel.getLocations(
             lat,
             lng,
@@ -187,7 +199,7 @@ class LocationListFragment : Fragment(), LoadMoreListener {
             MainPreferences.getInstance(requireContext()).getLng(0.0)
         )
         observeLocations()
-    }
+    }*/
 
     private fun observeLocations() {
         viewModel.locations.observe(viewLifecycleOwner, Observer {
@@ -196,18 +208,6 @@ class LocationListFragment : Fragment(), LoadMoreListener {
         viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
         })
-    }
-
-    override fun onLoadMore(position: Int) {
-        page++
-        viewModel.getLocations(
-            lat,
-            lng,
-            MainPreferences.getInstance(requireContext()).getLat(0.0),
-            MainPreferences.getInstance(requireContext()).getLng(0.0),
-            page,
-            position
-        )
     }
 
 }

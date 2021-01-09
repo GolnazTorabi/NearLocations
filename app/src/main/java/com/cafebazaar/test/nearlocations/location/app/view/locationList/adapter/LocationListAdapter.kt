@@ -11,9 +11,10 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
-class LocationListAdapter @Inject constructor(private val loadMoreListener: LoadMoreListener) :
+class LocationListAdapter @Inject constructor() :
     RecyclerView.Adapter<LocationListAdapter.LocationViewHolder>() {
     private val clickSubjectLocation = PublishSubject.create<Pair<LocationData?, Int>>()
+    private val clickSubjectLoadMore = PublishSubject.create<Int>()
     private var items: MutableList<LocationData> = mutableListOf()
 
     private var layoutInflater: LayoutInflater? = null
@@ -37,8 +38,7 @@ class LocationListAdapter @Inject constructor(private val loadMoreListener: Load
 
     override fun onBindViewHolder(holder: LocationViewHolder, position: Int) {
         holder.setData(items[position])
-        if (position == items.size - 1)
-            loadMoreListener.onLoadMore(position)
+
     }
 
     fun fillData(items: MutableList<LocationData>) {
@@ -47,18 +47,26 @@ class LocationListAdapter @Inject constructor(private val loadMoreListener: Load
     }
 
     val clickEventLocation: Observable<Pair<LocationData?, Int>> = clickSubjectLocation
+    val clickEventLoadMore: Observable<Int> = clickSubjectLoadMore
 
     inner class LocationViewHolder(private val binding: ItemLocationListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setData(data: LocationData) {
             binding.data = data
-            clickSubjectLocation.onNext(Pair(data, layoutPosition))
+            binding.layout.setOnClickListener {
+                clickSubjectLocation.onNext(
+                    Pair(
+                        data,
+                        layoutPosition
+                    )
+                )
+            }
+            if (layoutPosition == items.size - 1) {
+                clickSubjectLoadMore.onNext(layoutPosition)
+            }
         }
     }
 }
 
-interface LoadMoreListener {
-    fun onLoadMore(position: Int)
-}
 
 
