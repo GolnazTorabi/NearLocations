@@ -5,7 +5,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 object Distance {
-     fun distance(
+    fun distance(
         lat1: Double,
         lon1: Double,
         lat2: Double,
@@ -20,7 +20,7 @@ object Distance {
         dist = acos(dist)
         dist = rad2deg(dist)
         dist *= 60 * 1.1515
-        return dist / 1000
+        return dist * 1000
     }
 
     private fun deg2rad(deg: Double): Double {
